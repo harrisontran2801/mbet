@@ -1,0 +1,78 @@
+# Copy to ~/.config/mbet/config.yaml and replace every sample field with
+# values you observed. The sample JSON shape below is NOT a Marathonbet schema.
+
+base_url: "https://www.marathonbet.com"
+currency: "USD"
+max_stake: "10.00"
+betting_enabled: false
+timeout: 20
+debug: false
+timezone: "Asia/Ho_Chi_Minh"
+duplicate_window_seconds: 120
+
+endpoints:
+  login: ""
+  logout: ""
+  balance: ""
+  sports: ""
+  events: ""
+  event: ""
+  odds: ""
+  history: ""
+  place_bet: ""
+  search: ""
+
+csrf:
+  header: ""
+  cookie: ""
+  response_json: "csrfToken"
+  required: true
+  required_for_login: false
+
+request_templates:
+  login:
+    method: POST
+    content_type: json
+    body:
+      username: "{username}"
+      password: "{password}"
+  logout:
+    method: POST
+    content_type: json
+    body: {}
+  place_bet:
+    method: POST
+    content_type: json
+    body:
+      eventId: "{event_id}"
+      selectionId: "{selection_id}"
+      stake: "{stake|number}"
+      odds: "{odds|number}"
+
+response_maps:
+  balance:
+    amount: "amount"
+    currency: "currency"
+  events:
+    list: "events"
+    id: "id"
+    sport: "sport"
+    competition: "competition"
+    start_time: "startTime"
+    home_team: "home"
+    away_team: "away"
+  odds:
+    list: "markets"
+    id: "id"
+    name: "name"
+    selections: "selections"
+    selection_id: "id"
+    selection_name: "name"
+    selection_odds: "odds"
+  bet:
+    status: "status"
+    bet_id: "betId"
+    message: "message"
+    accepted_values: ["accepted", "ok", "success"]
+    rejected_values: ["rejected", "failed", "error"]
+    unknown_values: ["unknown", "pending"]

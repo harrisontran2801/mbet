@@ -1,0 +1,57 @@
+# mbet configuration.
+# Endpoints are intentionally blank. Marathonbet does not publish a customer
+# betting API that this project can honestly ship. After you watch the HTTPS
+# calls your own logged-in session already makes, paste those paths and the
+# JSON field names below. mbet will not guess them and will not bypass
+# CAPTCHA, MFA, bot checks, or geo restrictions.
+
+base_url: "https://www.marathonbet.com"
+currency: "USD"
+max_stake: "10.00"
+betting_enabled: false
+timeout: 20
+debug: false
+timezone: "UTC"
+duplicate_window_seconds: 120
+allow_insecure: false
+
+endpoints:
+  login: ""
+  logout: ""
+  balance: ""
+  sports: ""
+  events: ""
+  event: ""
+  odds: ""
+  history: ""
+  place_bet: ""
+  search: ""
+
+# Set header to the CSRF header name you observed, for example "X-CSRF-Token".
+# Leave it blank until you know the real name. mbet will not invent a token.
+csrf:
+  header: ""
+  cookie: ""
+  response_json: ""
+  required: true
+  required_for_login: false
+
+# Placeholders: {username} {password} on login only.
+# Bet placeholders: {event_id} {selection_id} {stake} {odds} {currency}
+# Append |number when the server expects a JSON number: "{stake|number}"
+request_templates:
+  login:
+    method: POST
+    content_type: json
+    body: {}
+  logout:
+    method: POST
+    content_type: json
+    body: {}
+  place_bet:
+    method: POST
+    content_type: json
+    success_statuses: [200, 201]
+    body: {}
+
+headers: {}
