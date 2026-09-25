@@ -89,6 +89,7 @@ class HttpTransport:
         self.client = client or httpx.Client(
             timeout=httpx.Timeout(config.timeout),
             follow_redirects=False,
+            transport=httpx.HTTPTransport(local_address="0.0.0.0"),
             limits=httpx.Limits(max_connections=10, max_keepalive_connections=5),
             headers=self._default_headers(),
         )
@@ -204,6 +205,15 @@ class HttpTransport:
                     json=json_body,
                     data=form_body,
                 )
+            except httpx.ConnectError as exc:
+                raise EndpointError(
+                    "Could not open a connection to the configured host.",
+                    hint=(
+                        "No login data was sent. mbet uses IPv4, the same path as curl -4. "
+                        "If that curl command also resets, this machine cannot complete TLS. "
+                        "mbet will not change its TLS fingerprint or route around the failure."
+                    ),
+                ) from exc
             except httpx.HTTPError:
                 if idempotent and attempt < attempts:
                     self._sleep(attempt)
